@@ -5,30 +5,30 @@ const {app, BrowserWindow} = require('electron')
 let win
 
 function main() {
-    win = new BrowserWindow({
-        width: 640,
-        height: 700,
-        icon: __dirname + "/img/snake_wild_32x32.png",
-        autoHideMenuBar: true
-    })
+	win = new BrowserWindow({
+		width: 640,
+		height: 700,
+		icon: __dirname + "/img/snake_wild_32x32.png",
+		autoHideMenuBar: true
+	})
 
-    win.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true
-    }))
+	win.loadURL(url.format({
+		pathname: path.join(__dirname, 'index.html'),
+		protocol: 'file:',
+		slashes: true
+	}))
 
-    //win.webContents.openDevTools()
+	//win.webContents.openDevTools()
 
-    win.on('closed', () => {
-        win = null
-    })
+	win.on('closed', () => {
+		win = null
+	})
 }
 
 app.whenReady().then(() => {
-    main()
+	main()
 })
 
 app.on('window-all-closed', () => {
-    app.quit()
+	app.quit()
 })
