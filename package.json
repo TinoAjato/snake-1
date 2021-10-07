@@ -1,0 +1,18 @@
+{
+  "name": "snake-1",
+  "version": "1.0.0",
+  "description": "Попытка игры \"Змейка\"",
+  "main": "main.js",
+  "scripts": {
+    "go": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TinoAjato?tab=repositories"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^15.1.1"
+  }
+}
