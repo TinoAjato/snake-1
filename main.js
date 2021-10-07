@@ -6,9 +6,10 @@ let win
 
 function main() {
     win = new BrowserWindow({
-        width: 800,
-        height: 600,
-        icon: __dirname + "/img/snake_wild_32x32.png"
+        width: 640,
+        height: 700,
+        icon: __dirname + "/img/snake_wild_32x32.png",
+        autoHideMenuBar: true
     })
 
     win.loadURL(url.format({
