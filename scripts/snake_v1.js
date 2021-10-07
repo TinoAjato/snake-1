@@ -1,5 +1,6 @@
 let scoreBlock
 let score = 0
+let blockFlag = true
 
 const config = {
 	step: 0,
@@ -44,6 +45,7 @@ scoreBlock = document.querySelector('.game-score .score-count')
 drawScore()
 
 function gameLoop() {
+
 	requestAnimationFrame(gameLoop)
 
 	if(++config.step < config.maxStep) {
@@ -56,6 +58,8 @@ function gameLoop() {
 
 	drawBerry()
 	drawSnake()
+
+	blockFlag = false
 }
 requestAnimationFrame(gameLoop)
 
@@ -122,6 +126,11 @@ function refreshGame() {
 }
 
 document.addEventListener('keydown', function(e) {
+
+	if(blockFlag) return
+
+	blockFlag = true
+
 	if(e.code == 'KeyW' && snake.dy == 0) {
 		snake.dy = -config.sizeCell
 		snake.dx = 0
