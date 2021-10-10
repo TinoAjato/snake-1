@@ -1,12 +1,12 @@
 let scoreBlock
 let score = 0
-let blockFlag = true
+let blockFlag = false
+let speedBlock
 
 const config = {
-	step: 0,
-	maxStep: 12,
 	sizeCell: 16,
-	sizeBerry: 16 / 4
+	sizeBerry: 16 / 4,
+	speed: 200
 }
 
 const snake = {
@@ -15,12 +15,14 @@ const snake = {
 	dx: config.sizeCell,
 	dy: 0,
 	tails: [],
-	maxTails: 3
+	maxTails: 3,
+	speed: config.speed
 }
 
 let berry = {
 	x: 0,
-	y: 0
+	y: 0,
+	acceleration: 1.5
 }
 
 function incScore() {
@@ -32,6 +34,11 @@ function drawScore() {
 	scoreBlock.innerHTML = score
 }
 
+function _speed() {
+	speedBlock.innerHTML = 'delay = ' + snake.speed
+}
+
+
 function getRandomInt(min, max) {
 	return Math.floor(Math.random() * (max - min) + min)
 }
@@ -41,26 +48,37 @@ let canvas = document.querySelector('#game-canvas')
 let context = canvas.getContext('2d')
 
 scoreBlock = document.querySelector('.game-score .score-count')
+speedBlock = document.querySelector('.speed')
 
 drawScore()
 
-function gameLoop() {
+let mSecondsPassed = 0
+let oldTimeStamp = 0
 
-	requestAnimationFrame(gameLoop)
+function gameLoop(timeStamp) {
 
-	if(++config.step < config.maxStep) {
-		return
+	mSecondsPassed = (timeStamp - oldTimeStamp)
+	mSecondsPassed = Math.min(mSecondsPassed, snake.speed)
+
+	if (mSecondsPassed < snake.speed) {
+	  requestAnimationFrame(gameLoop)
+	  return
 	}
 
-	config.step = 0
+	oldTimeStamp = timeStamp
+
+	blockFlag = false
+
+	_speed()
 
 	context.clearRect(0, 0, canvas.width, canvas.height)
 
 	drawBerry()
 	drawSnake()
 
-	blockFlag = false
+	requestAnimationFrame(gameLoop)
 }
+
 requestAnimationFrame(gameLoop)
 
 function randomPositionBerry() {
@@ -69,6 +87,7 @@ function randomPositionBerry() {
 }
 
 function drawSnake() {
+
 	snake.x += snake.dx
 	snake.y += snake.dy
 
@@ -93,6 +112,7 @@ function drawSnake() {
 			snake.maxTails++
 			incScore()
 			randomPositionBerry()
+			snake.speed -= berry.acceleration
 		}
 		
 		for(let i = index + 1; i < snake.tails.length; i++) {
@@ -121,6 +141,7 @@ function refreshGame() {
 	snake.maxTails = 3
 	snake.dx = config.sizeCell
 	snake.dy = 0
+	snake.speed = config.speed
 
 	randomPositionBerry()
 }
